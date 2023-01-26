@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,7 +11,7 @@ import { AppContext } from "../../context/MainContext";
 import { addDoc, getDocs } from "firebase/firestore";
 import { colRef } from "../../firebase";
 
-export default function ImgMediaCard({ country }) {
+export default function ImgMediaCard({ country, countries }) {
   const { theme } = useContext(AppContext);
   const [isVisited, setIsVisited] = useState(false);
 
@@ -19,19 +19,6 @@ export default function ImgMediaCard({ country }) {
   const addCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-
-  // checking if the current country is in to visit. If it is add a checkmark
-  getDocs(colRef)
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        if (doc.data().name === country.name.common) {
-          setIsVisited(true);
-        }
-      });
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
 
   const visitCountry = async () => {
     await addDoc(colRef, {
@@ -49,68 +36,55 @@ export default function ImgMediaCard({ country }) {
     });
   };
 
+  useEffect(() => {
+    // checking if the current country is in to visit. If it is add a checkmark
+    getDocs(colRef)
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          if (doc.data().name === country.name.common) {
+            setIsVisited(true);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, [country, countries]);
+
   return (
-    <Link to={`/country/${country.flag}`}>
-      <Card
-        sx={{ maxWidth: 240 }}
-        
-        style={{
-          backgroundColor: `${theme.cardBackground}`,
-          borderRadius: "12px",
-          boxShadow: "0 0 #000",
-          border: "none",
-          width: 240
-        }}
-      >
-        <CardMedia className="w-full">
-          <img
+    <Link to={`/country/${country.name.common}`} className="w-full">
+      <div className={`w-full flex flex-col justify-start rounded-xl overflow-hidden bg-[${theme.cardBackground}]`}>
+        <div className="w-full h-48 rounded-2">
+        <img
             src={country.flags.svg}
             alt={country.name.common}
-            className="w-full h-40 object-cover rounded-xl"
+            className="w-full h-full object-cover rounded-b-xl"
           />
-        </CardMedia>
-        <CardContent>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            className={`${theme.primaryText} truncate`}
-          >
-            {country.name.common}
-          </Typography>
-          <Typography
-            variant="body2"
-            className="flex flex-col justify-start gap-2"
-          >
-            <span className={`${theme.secondaryText}`}>
-              Population: {addCommas(country.population)}
-            </span>
-            <span className={`${theme.secondaryText} truncate`}>
-              Capital: {country.capital}
-            </span>
-            <span className={`${theme.secondaryText}`}>Currency:random</span>
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <div className="w-full flex justify-end gap-2">
-            {/* <button
+        </div>
+        {/* card content */}
+        <div className="w-full h-auto flex flex-col justify-start gap-3 p-3">
+          <h3 className={`text-2xl font-medium ${theme.primaryText} truncate`}>{country.name.common}</h3>
+          <span className={`${theme.secondaryText}`}>
+            Population: {addCommas(country.population)}
+          </span>
+          <span className={`${theme.secondaryText} truncate`}>
+            Capital: {country.capital}
+          </span>
+          <span className={`${theme.secondaryText}`}>Currency:random</span>
+        </div>
+        {/* buttons */}
+        <div className="w-full flex justify-end gap-2 p-3">
+          <button
             type="button"
-            className="border-none p-3 rounded-full bg-[#D9D9D9]"
+            onClick={() => visitCountry()}
+            className={`border-none p-3 rounded-full ${
+              isVisited ? "bg-[var(--green)]" : "bg-[#D9D9D9]"
+            }`}
           >
-            <img src={trash} alt="Delete" className="w-[16px] h-[16px]" />
-          </button> */}
-            <button
-              type="button"
-              onClick={() => visitCountry()}
-              className={`border-none p-3 rounded-full ${
-                isVisited ? "bg-[var(--green)]" : "bg-[#D9D9D9]"
-              }`}
-            >
-              <img src={check} alt="Check" className={`w-[16px] h-[16px]`} />
-            </button>
-          </div>
-        </CardActions>
-      </Card>
+            <img src={check} alt="Check" className={`w-[16px] h-[16px]`} />
+          </button>
+        </div>
+      </div>
     </Link>
   );
 }

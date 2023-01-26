@@ -7,6 +7,7 @@ import { AuthProvider } from "./pages/auth/Auth";
 import PrivateRoute from "./PrivateRoute";
 import MainContext from "./context/MainContext";
 import Country from "./pages/country/Country";
+import ToVisit from "./pages/tovisit/ToVisit";
 
 function App() {
   
@@ -27,10 +28,19 @@ function App() {
             />
             <Route
               exact
-              path="/country/:flag"
+              path="/country/:name"
               element={
                 <PrivateRoute>
                   <Country />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/toVisit"
+              element={
+                <PrivateRoute>
+                  <ToVisit />
                 </PrivateRoute>
               }
             />

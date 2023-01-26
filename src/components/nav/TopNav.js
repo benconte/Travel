@@ -4,6 +4,7 @@ import { auth } from "../../firebase";
 import Switch from "./Switch";
 import { AppContext } from "../../context/MainContext";
 import bell from "../../utils/bell.svg";
+import { Link } from "react-router-dom";
 
 const profile = require("../../utils/profile.png");
 
@@ -14,7 +15,7 @@ function TopNav() {
 
   return (
     <div className="flex w-full h-20 items-center justify-between px-10">
-      <h2 className={`font-medium ${theme.primaryText} `}>My List</h2>
+      <Link to={`/`} className="hover:no-underline"><h2 className={`font-medium ${theme.primaryText} `}>My List</h2></Link>
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-3">
           <span className={`font-medium ${theme.darkText} uppercase`}>

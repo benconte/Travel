@@ -4,29 +4,81 @@ import Options from "./Options";
 
 function MyList() {
   const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [search, setSearch] = useState("");
+  const [result, setResult] = useState("");
 
-  const handleSearch = (search) => {};
+  const handleSearch = async (search) => {
+    const searchWord = search;
+    setSearch(searchWord);
+    const newFilter = countries.filter((state) =>
+      state.name.common.toLowerCase().includes(searchWord.toLowerCase())
+    );
+    /*
+     * newFilter filters countries with the exact same characters included in their names
+     * And changes them to lowercase to make sure they match
+     */
+    if (searchWord === "") {
+      setFilteredCountries([]);
+      const resp = await fetch(`https://restcountries.com/v3.1/all`);
+      const data = await resp.json();
+      setCountries(data);
+    } else if (filteredCountries) {
+      setFilteredCountries(newFilter);
+      console.log("this is a filter:", filteredCountries);
+    }
+  };
 
-  const handleFilter = (option) => {};
+  const handleFilter = async (region) => {
+    if (region === "All") {
+      const resp = await fetch(`https://restcountries.com/v3.1/all`);
+      const data = await resp.json();
+      setCountries(data);
+    } else {
+      await fetch(`https://restcountries.com/v3.1/region/${region}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setCountries(data);
+          console.log(data);
+        });
+    }
+  };
 
   useEffect(() => {
     const getCountries = async () => {
       const resp = await fetch(`https://restcountries.com/v3.1/all`);
       const data = await resp.json();
       setCountries(data);
-      console.log(data);
     };
     getCountries();
   }, []);
   return (
-    <div className="w-full h-full pb-5 px-8 ">
+    <div className="w-full h-full pb-5 px-8">
       {/* filter and search options */}
       <Options handleSearch={handleSearch} handleFilter={handleFilter} />
 
-      <div className="w-full flex items-start flex-wrap gap-8 mt-5">
-        {countries &&
-          countries.map((country, key) => <Card country={country} key={key} />)}
-      </div>
+      {filteredCountries.length === 0 && search !== "" && (
+        <div className="text-lg font-medium text-center w-full">
+          No result found
+        </div>
+      )}
+
+      {filteredCountries && search !== "" && (
+        <div className="w-full flex items-start flex-wrap gap-8 mt-5">
+          {filteredCountries.map((country, key) => (
+            <Card country={country} key={key} />
+          ))}
+        </div>
+      )}
+
+      {search === "" && filteredCountries.length <= 0 && (
+        <div className="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-5">
+          {countries &&
+            countries.map((country, key) => (
+              <Card country={country} key={key} countries={countries} />
+            ))}
+        </div>
+      )}
     </div>
   );
 }

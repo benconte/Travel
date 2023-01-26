@@ -5,17 +5,17 @@ import { AppContext } from "../../context/MainContext";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 function Options({ handleSearch, handleFilter }) {
-  const [seach, setSearch] = useState("");
+  //   const [seach, setSearch] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState();
   const { theme } = useContext(AppContext);
 
-    const filterBySearch = ({ target }) => {
-        setSearch(target.value)
-        handleSearch(search)
-    }
+  const filterBySearch = (e) => {
+    // setSearch(target.value)
+    handleSearch(e.target.value);
+  };
 
   const filt = ({ target }) => {
-    handleFilter(target.innerHTML)
+    handleFilter(target.innerHTML);
   };
   const handleClick = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -26,15 +26,15 @@ function Options({ handleSearch, handleFilter }) {
   };
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <div className="w-full h-16 flex items-center justify-between">
+      <div className="w-full sm:h-auto md:h-16 sm:block md:flex items-center justify-between">
         <div
-          className={`flex items-center ${theme.lightBackground} h-12  rounded-lg px-4 gap-4`}
+          className={`flex items-center ${theme.lightBackground} h-12 mb-4 rounded-lg px-4 gap-4`}
         >
           <img src={search} alt="Search" />
           <input
             type="search"
             placeholder="Search For a Country...."
-            className="border-none outline-none bg-transparent"
+            className="border-none outline-none bg-transparent h-full"
             onChange={(e) => filterBySearch(e)}
           />
         </div>
@@ -52,6 +52,12 @@ function Options({ handleSearch, handleFilter }) {
             <div
               className={`absolute top-14 w-full flex items-center flex-col ${theme.lightBackground} rounded-lg`}
             >
+              <span
+                className={`h-10 text-lg cursor-pointer w-full flex items-center justify-center hover:bg-[#d9d9d9] text-black`}
+                onClick={(e) => filt(e)}
+              >
+                All
+              </span>
               <span
                 className={`h-10 text-lg cursor-pointer w-full flex items-center justify-center hover:bg-[#d9d9d9] text-black`}
                 onClick={(e) => filt(e)}
