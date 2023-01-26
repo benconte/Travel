@@ -1,38 +1,28 @@
-.App {
-  text-align: center;
+* {
+    box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .sidebarItem {
+        @apply my-4 text-[#444] text-xs font-medium cursor-pointer hover:bg-[rgb(250,250,250)] hover:text-[rgb(38,38,38)] flex items-center  justify-center lg:justify-start gap-4;
+    }
+
+    .navitemmobile {
+        @apply h-[40px] px-[12px] my-4 text-[rgba(38,38,38,.8)] cursor-pointer hover:scale-110 flex items-center  justify-center;
+    }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+:root {
+    --green: #14C704;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+    margin: 0;
+    padding: 0;
+    /* background-color: #FAFAFA; */
+    overflow-x: hidden;
 }
