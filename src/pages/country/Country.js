@@ -21,7 +21,7 @@ function Country() {
     }, [])
     
   return (
-    <div className={`w-screen min-h-screen ${theme.background}`}>
+    <div className={`w-full min-h-screen ${theme.background}`}>
         <SideBar />
         <div className="w-full h-full pl-0 md:pl-48">
             <TopNav type="countryView" />

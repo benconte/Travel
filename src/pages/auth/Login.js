@@ -15,12 +15,14 @@ export default function Login() {
       await signIn(email.value, password.value)
       navigate("/")
     } catch (err) {
-      setErrCode(err.code)
-
       if(err.code === "auth/invalid-email") {
-        setErrCode("The provided value for the email user property is invalid. It must be a string email address")
+        setErrCode("The provided email is invalid. It must be a full email(with @ sign)")
       } else if (err.code === "auth/user-not-found") {
         setErrCode("User doesn't exists. Check your email and password")
+      } else if (err.code === "auth/wrong-password") {
+        setErrCode("Wrong Password. Try again!")
+      } else {
+        setErrCode(err.message)
       }
     }
   }

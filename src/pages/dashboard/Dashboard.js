@@ -7,7 +7,7 @@ import { AppContext } from '../../context/MainContext';
 function Home() {
   const { theme } = useContext(AppContext)
   return (
-    <div className={`w-screen min-h-screen ${theme.background}`}>
+    <div className={`w-full min-h-screen ${theme.background}`}>
       <SideBar />
       <main className='w-screen h-full pl-0 md:pl-48'>
         <TopNav />

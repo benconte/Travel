@@ -1,14 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import check from "../../utils/check.svg";
 import trash from "../../utils/trash.svg";
 import { AppContext } from "../../context/MainContext";
-import { addDoc } from "firebase/firestore";
-import { visitedRef } from "../../firebase";
+import { addDoc, deleteDoc, doc } from "firebase/firestore";
+import { visitedRef, visit, db } from "../../firebase";
 
-export default function CountryCard({ country }) {
+export default function CountryCard({ country, setPlaces, places }) {
   const { theme } = useContext(AppContext);
-  const [isVisited, setIsVisited] = useState(false);
 
   // Function that adds a comma after thousandths for population
   const addCommas = (number) => {
@@ -16,25 +14,41 @@ export default function CountryCard({ country }) {
   };
 
   const visitCountry = async () => {
-    await addDoc(visitedRef, {
-      name: country.name.common,
-      population: country.population,
-      region: country.region,
-      capital: country.capital,
-      currencies: country.currencies,
-      domain: country.tld,
-      languages: country.languages,
-      borderCountries: country.borders,
-      flag: country.flags.svg,
-    }).then(() => {
-      setIsVisited(true);
+    const temp = { ...country }
+    console.log(typeof places)
+    await addDoc(visitedRef, temp).then(() => {
+      const cntry = []
+      places.forEach(elm => {
+        if(elm.docId !== country.docId) {
+          cntry.push(elm)
+        }
+      })
+
+      // now deleting the document from the toVisit collection
+      const msg = visit("tovisit", country.docId)
+      setPlaces(cntry)
+      console.log(msg)
     });
   };
 
-  const removeVisitTo = async () => {};
+  const removeVisitTo = async () => {
+    const ref = doc(db, "tovisit", country.docId)
+    await deleteDoc(ref).then(() => {
+      const cntry = []
+        places.forEach(elm => {
+          if(elm.docId !== country.docId) {
+            cntry.push(elm)
+          }
+        })
+  
+        // now deleting the document from the toVisit collection
+        setPlaces(cntry)
+        console.log(`${country.name} was removed from toVisit`)
+    }).catch(err => console.log(err))
+  };
   return (
     <div
-      className={`w-full flex flex-col justify-start rounded-xl overflow-hidden bg-[${theme.cardBackground}] z-0`}
+      className={`w-full flex flex-col justify-start rounded-xl overflow-hidden bg-[${theme.cardBackground}]`}
     >
       <Link to={`/country/${country.name}`} className="w-full">
         <div className="w-full h-48 rounded-2">
@@ -59,13 +73,11 @@ export default function CountryCard({ country }) {
         </div>
       </Link>
       {/* buttons */}
-      <div className="z-10 w-full flex justify-end gap-2 p-3">
+      <div className="w-full flex justify-end gap-2 p-3">
         <button
           type="button"
           onClick={() => removeVisitTo()}
-          className={`border-none p-3 rounded-full ${
-            isVisited ? "bg-[var(--green)]" : "bg-[#D9D9D9]"
-          }`}
+          className={`border-none p-3 rounded-full bg-[#D9D9D9]`}
         >
           <img src={trash} alt="Check" className={`w-[16px] h-[16px]`} />
         </button>

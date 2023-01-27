@@ -4,15 +4,15 @@ import { AppContext } from "../../context/MainContext";
 function State({ country }) {
   const { theme } = useContext(AppContext);
   return (
-    <div className="w-full md:block lg:flex items-start h-full sm:px-4 px-8 gap-4 py-10">
-      <div className="md:w-full lg:w-3/6 sm:h-[200px] lg:h-[400px]">
+    <div className="w-full md:block lg:flex items-start h-full gap-2 py-10">
+      <div className="md:w-full lg:w-3/6 sm:h-[200px] lg:h-[400px] mx-4">
       <img
           src={country.flags.svg}
           alt=""
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="md:w-full lg:basis-5/12 my-6">
+      <div className="md:w-full lg:basis-5/12 my-6 mx-2">
         <h1 className={`text-2xl font-medium mb-4 ${theme.primaryText} `}>
           {country.name.common}
         </h1>
@@ -70,13 +70,13 @@ function State({ country }) {
           </div>
         </div>
         {/* border countries */}
-        <div className={`w-full text-[18px] font-medium ${theme.secondaryText} flex items-start mt-8`}>
-          Border Countries:
-          <p className="flex items-start gap-2 pl-1">
+        <div className={`w-full text-[18px] flex items-start flex-wrap gap-2 font-medium ${theme.secondaryText} mt-8`}>
+          <p>Border Countries:</p>
+          {/* <p className="flex items-start flex-wrap gap-2 pl-1"> */}
             {country.borders.map((brd, key) => (
               <span className={`rounded text-sm font-normal py-1 px-2 cursor-pointer ${theme.lightBackground} text-gray-500`}>{brd}</span>
             ))}
-          </p>
+          {/* </p> */}
         </div>
       </div>
     </div>

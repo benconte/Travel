@@ -6,7 +6,6 @@ function MyList() {
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [search, setSearch] = useState("");
-  const [result, setResult] = useState("");
 
   const handleSearch = async (search) => {
     const searchWord = search;

@@ -5,17 +5,19 @@ import Switch from "./Switch";
 import { AppContext } from "../../context/MainContext";
 import bell from "../../utils/bell.svg";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../pages/auth/Auth";
 
 const profile = require("../../utils/profile.png");
 
 function TopNav() {
   const { mode, theme } = useContext(AppContext);
+  const { currentUser } = useContext(AuthContext);
   const [isDropdown, setIsDropDown] = useState(false);
   const [enabled, setEnabled] = useState(mode === "light" ? false : true);
 
   return (
     <div className="flex w-full h-20 items-center justify-between px-10">
-      <Link to={`/`} className="hover:no-underline"><h2 className={`font-medium ${theme.primaryText} `}>My List</h2></Link>
+      <h2 className={`font-medium ${theme.primaryText} `}>My List</h2>
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-3">
           <span className={`font-medium ${theme.darkText} uppercase`}>
@@ -30,7 +32,7 @@ function TopNav() {
         {/* profile */}
         <div className="flex items-center gap-3 relative">
           <p className={`text-sm font-medium ${theme.darkText}`}>
-            <span className="text-gray-500">Hey,</span> Jane
+            <span className="text-gray-500">Hey,</span> {currentUser.displayName}
           </p>
           <img
             src={profile}
@@ -41,7 +43,7 @@ function TopNav() {
 
           {/* dropdown */}
           {isDropdown && (
-            <div className={`absolute top-16 w-full h-[40px] bg-white border border-solid ${theme.sidebarBorder} rounded flex items-center`}>
+            <div className={`z-10 absolute top-16 w-full h-[40px] bg-white border border-solid ${theme.sidebarBorder} rounded flex items-center`}>
               <div className="w-full h-full overflow-hidden">
                 <button
                   type="button"

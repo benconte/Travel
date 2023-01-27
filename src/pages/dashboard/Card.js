@@ -1,18 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import { Link } from "react-router-dom";
-import Typography from "@mui/material/Typography";
 import check from "../../utils/check.svg";
-// import trash from "../../utils/trash.svg";
 import { AppContext } from "../../context/MainContext";
 import { addDoc, getDocs } from "firebase/firestore";
 import { colRef } from "../../firebase";
+import { AuthContext } from "../auth/Auth"
 
 export default function ImgMediaCard({ country, countries }) {
   const { theme } = useContext(AppContext);
+  const { currentUser } = useContext(AuthContext);
   const [isVisited, setIsVisited] = useState(false);
 
   // Function that adds a comma after thousandths for population
@@ -31,6 +27,7 @@ export default function ImgMediaCard({ country, countries }) {
       languages: country.languages,
       borderCountries: country.borders,
       flag: country.flags.svg,
+      uid: currentUser.uid
     }).then(() => {
       setIsVisited(true);
     });
@@ -41,7 +38,7 @@ export default function ImgMediaCard({ country, countries }) {
     getDocs(colRef)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          if (doc.data().name === country.name.common) {
+          if (doc.data().uid === currentUser.uid &&  doc.data().name === country.name.common) {
             setIsVisited(true);
           }
         });
@@ -49,7 +46,7 @@ export default function ImgMediaCard({ country, countries }) {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [country, countries]);
+  }, [country, countries, currentUser.uid]);
 
   return (
     <Link to={`/country/${country.name.common}`} className="w-full">

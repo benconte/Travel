@@ -11,12 +11,12 @@ function SideBar() {
     <div
       className={`hidden md:block w-48 ${theme.sidebarBackground} h-full px-8 border-r border-solid ${theme.sidebarBorder} fixed top-0 left-0 `}
     >
-      <header className={`py-6 font-bold text-2xl ${theme.logo}`}>BAG</header>
+      <Link to={`/`} className={`hover:no-underline`}><header className={`py-6 font-bold text-2xl ${theme.logo}`}>BAG</header></Link>
       <ul className="list-none m-0">
         <Link to={`/`} className={`hover:no-underline ${theme.primaryText}`}>
           <li className={itemStyles}>MY LIST</li>
         </Link>
-        <Link className={`hover:no-underline ${theme.primaryText}`}>
+        <Link to={`/visited`} className={`hover:no-underline ${theme.primaryText}`}>
           <li className={itemStyles}>VISITED</li>
         </Link>
         <Link to={`/toVisit`} className={`hover:no-underline ${theme.primaryText}`}>

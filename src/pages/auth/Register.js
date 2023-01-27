@@ -10,10 +10,10 @@ export default function Register() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    const { email, password } = e.target.elements;
+    const { username, email, password } = e.target.elements;
 
     try {
-      await register(email.value, password.value);
+      await register(email.value, password.value, username.value);
       navigate("/");
     } catch (err) {
       setErrCode(err.code)
@@ -41,9 +41,16 @@ export default function Register() {
             <div className="w-full h-auto flex flex-col justify-start">
               <form onSubmit={handleSignup}>
                 <div className="flex flex-col gap-4">
+                <input
+                    type="text"
+                    placeholder="Username"
+                    name="username"
+                    require
+                    className="bg-[#f3f3f3] w-full p-3 border border-solid border-[rgb(219, 219, 219)] outline-none rounded-md "
+                  />
                   <input
                     type="email"
-                    placeholder="Email...."
+                    placeholder="example@mail.com"
                     name="email"
                     require
                     className="bg-[#f3f3f3] w-full p-3 border border-solid border-[rgb(219, 219, 219)] outline-none rounded-md "

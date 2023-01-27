@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { 
-  getFirestore, collection
+  getFirestore, collection, doc, deleteDoc
  } from "firebase/firestore"
 
 // Your web app's Firebase configuration
@@ -24,6 +24,14 @@ export const db = getFirestore()
 
 export const colRef = collection(db, "tovisit")
 export const visitedRef = collection(db, "visited")
+
+export const visit = async (coll, docId) => {
+  const docRef = doc(db, coll, docId)
+
+  await deleteDoc(docRef).then(() => {
+    console.log(`Document with Id[${docId}] was deleted successfully`)
+  }).catch(err => console.log(err))
+}
 
 // apiKey: process.env.APIKEY,
 // authDomain: process.env.AUTHDOMAIN,

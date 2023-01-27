@@ -28,13 +28,13 @@ function Options({ handleSearch, handleFilter }) {
     <ClickAwayListener onClickAway={handleClickAway}>
       <div className="w-full sm:h-auto md:h-16 sm:block md:flex items-center justify-between">
         <div
-          className={`flex items-center ${theme.lightBackground} h-12 mb-4 rounded-lg px-4 gap-4`}
+          className={`flex items-center ${theme.lightBackground} h-12 rounded-lg px-4 mb-4 md:mb-0 gap-4`}
         >
           <img src={search} alt="Search" />
           <input
             type="search"
             placeholder="Search For a Country...."
-            className="border-none outline-none bg-transparent h-full"
+            className="w-full border-none outline-none bg-transparent h-full"
             onChange={(e) => filterBySearch(e)}
           />
         </div>

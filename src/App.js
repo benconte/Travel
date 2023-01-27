@@ -8,9 +8,9 @@ import PrivateRoute from "./PrivateRoute";
 import MainContext from "./context/MainContext";
 import Country from "./pages/country/Country";
 import ToVisit from "./pages/tovisit/ToVisit";
+import Visited from "./pages/visited/Visited";
 
 function App() {
-  
   return (
     <AuthProvider>
       <MainContext>
@@ -41,6 +41,15 @@ function App() {
               element={
                 <PrivateRoute>
                   <ToVisit />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/visited"
+              element={
+                <PrivateRoute>
+                  <Visited />
                 </PrivateRoute>
               }
             />
