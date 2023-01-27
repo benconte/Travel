@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../context/MainContext";
+import trash from "../../utils/trash.svg";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebase";
 
-export default function Card({ country, setCountries }) {
+export default function Card({ country, countries, setCountries }) {
   const { theme } = useContext(AppContext);
 
   // Function that adds a comma after thousandths for population
@@ -10,6 +13,21 @@ export default function Card({ country, setCountries }) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const removeFromVisited = async () => {
+    const ref = doc(db, "visited", country.docId)
+    await deleteDoc(ref).then(() => {
+      const cntry = []
+      countries.forEach(elm => {
+          if(elm.docId !== country.docId) {
+            cntry.push(elm)
+          }
+        })
+  
+        // now deleting the document from the visited collection
+        setCountries(cntry)
+        console.log(`${country.name} was removed from visited`)
+    }).catch(err => console.log(err))
+  };
   return (
     <div
       className={`w-full flex flex-col justify-start rounded-xl overflow-hidden bg-[${theme.cardBackground}]`}
@@ -36,6 +54,16 @@ export default function Card({ country, setCountries }) {
           <span className={`${theme.secondaryText}`}>Currency: random</span>
         </div>
       </Link>
+      {/* buttons */}
+      <div className="w-full flex justify-end gap-2 p-3">
+        <button
+          type="button"
+          onClick={() => removeFromVisited()}
+          className={`border-none p-3 rounded-full bg-[#D9D9D9]`}
+        >
+          <img src={trash} alt="Check" className={`w-[16px] h-[16px]`} />
+        </button>
+      </div>
     </div>
   );
 }

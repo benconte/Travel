@@ -24,7 +24,6 @@ function MyList() {
       setCountries(data);
     } else if (filteredCountries) {
       setFilteredCountries(newFilter);
-      console.log("this is a filter:", filteredCountries);
     }
   };
 
@@ -38,7 +37,6 @@ function MyList() {
         .then((res) => res.json())
         .then((data) => {
           setCountries(data);
-          console.log(data);
         });
     }
   };

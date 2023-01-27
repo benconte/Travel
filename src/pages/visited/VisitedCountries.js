@@ -17,13 +17,12 @@ function VisitedCountries() {
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
           if (doc.data().uid === currentUser.uid) {
-            temp.push({ ...doc.data(), docId: doc.data().id });
+            temp.push({ ...doc.data(), docId: doc.id });
           }
         });
       })
       .catch((err) => console.log(err.message));
     setCountries(temp);
-    console.log("new countries", countries);
   }, [countries, currentUser.uid]);
 
   useEffect(() => {
@@ -52,12 +51,12 @@ function VisitedCountries() {
             <h3
               className={`font-medium ${theme.secondaryText} text-base`}
             >
-              All countries you've visited
+              All the countries you've visited
             </h3>
           </div>
           <div className="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
             {countries.map((country, key) => (
-              <Card country={country} key={key} setCountries={setCountries} />
+              <Card country={country} key={key} setCountries={setCountries} countries={countries} />
             ))}
           </div>
         </div>

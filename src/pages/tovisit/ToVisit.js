@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import SideBar from "../../components/nav/SideBar";
-import TopNav from "../../components/nav/TopNav";
+import SideBar from "../../components/SideBar";
+import TopNav from "../../components/TopNav";
 import { AppContext } from "../../context/MainContext";
 import Countries from "./Countries"
 

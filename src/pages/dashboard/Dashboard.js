@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 // import { signOut } from 'firebase/auth'
-import SideBar from '../../components/nav/SideBar'
-import TopNav from '../../components/nav/TopNav';
+import SideBar from '../../components/SideBar'
+import TopNav from '../../components/TopNav';
 import MyList from './MyList';
 import { AppContext } from '../../context/MainContext';
 function Home() {

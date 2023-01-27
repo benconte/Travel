@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Switch } from '@headlessui/react'
-import { AppContext } from '../../context/MainContext'
+import { AppContext } from '../context/MainContext'
 
 export default function Mode({ enabled, setEnabled }) {
   const { changeTheme } = useContext(AppContext)

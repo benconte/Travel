@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import TopNav from "../../components/nav/TopNav"
-import SideBar from "../../components/nav/SideBar"
+import TopNav from "../../components/TopNav"
+import SideBar from "../../components/SideBar"
 import VisitedCountries from "./VisitedCountries"
 import { AppContext } from '../../context/MainContext'
 

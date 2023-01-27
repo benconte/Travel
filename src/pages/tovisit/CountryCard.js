@@ -15,7 +15,7 @@ export default function CountryCard({ country, setPlaces, places }) {
 
   const visitCountry = async () => {
     const temp = { ...country }
-    console.log(typeof places)
+    
     await addDoc(visitedRef, temp).then(() => {
       const cntry = []
       places.forEach(elm => {

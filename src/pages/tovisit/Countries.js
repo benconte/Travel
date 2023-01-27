@@ -23,7 +23,6 @@ function Countries() {
       })
       .catch((err) => console.log(err.message));
     setPlaces(temp);
-    console.log(places);
   }, [places, currentUser.uid]);
 
   useEffect(() => {
@@ -50,7 +49,7 @@ function Countries() {
         <div className="w-full">
           <div className="w-full mt-10 mb-5">
             <h3 className={`font-medium ${theme.secondaryText} text-base`}>
-              All countries you've visited
+              All the countries you want to visit
             </h3>
           </div>
 

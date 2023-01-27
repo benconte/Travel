@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AppContext } from "../../context/MainContext";
+import { AppContext } from "../context/MainContext";
 import { Link } from "react-router-dom";
 
 function SideBar() {

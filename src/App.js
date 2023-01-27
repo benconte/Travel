@@ -4,12 +4,13 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Home from "./pages/dashboard/Dashboard";
 import { AuthProvider } from "./pages/auth/Auth";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./route/PrivateRoute";
 import MainContext from "./context/MainContext";
 import Country from "./pages/country/Country";
 import ToVisit from "./pages/tovisit/ToVisit";
 import Visited from "./pages/visited/Visited";
 
+// the App component contains all the routes of our app
 function App() {
   return (
     <AuthProvider>

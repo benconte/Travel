@@ -1,13 +1,12 @@
 import React, { useState, useContext } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "../firebase";
 import Switch from "./Switch";
-import { AppContext } from "../../context/MainContext";
-import bell from "../../utils/bell.svg";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../pages/auth/Auth";
+import { AppContext } from "../context/MainContext";
+import bell from "../utils/bell.svg";
+import { AuthContext } from "../pages/auth/Auth";
 
-const profile = require("../../utils/profile.png");
+const profile = require("../utils/profile.png");
 
 function TopNav() {
   const { mode, theme } = useContext(AppContext);
