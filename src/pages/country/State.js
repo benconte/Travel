@@ -3,6 +3,11 @@ import { AppContext } from "../../context/MainContext";
 
 function State({ country }) {
   const { theme } = useContext(AppContext);
+
+  // format the number
+  const addCommas = (number) => {
+    return number.toLocaleString("en-US");
+  };
   return (
     <div className="w-full md:block lg:flex items-start h-full gap-2 py-10">
       <div className="md:w-full lg:w-3/6 sm:h-[200px] lg:h-[400px] mx-4">
@@ -27,7 +32,7 @@ function State({ country }) {
             <p className={`text-[18px] font-medium ${theme.darkText}`}>
               Population:{" "}
               <span className="text-gray-500 font-normal">
-                {country.population}
+                {addCommas(country.population)}
               </span>
             </p>
             <p className={`text-[18px] font-medium ${theme.darkText}`}>
@@ -72,11 +77,11 @@ function State({ country }) {
         {/* border countries */}
         <div className={`w-full text-[18px] flex items-start flex-wrap gap-2 font-medium ${theme.secondaryText} mt-8`}>
           <p>Border Countries:</p>
-          {/* <p className="flex items-start flex-wrap gap-2 pl-1"> */}
+          {/* we map through the border countries */}
             {country.borders.map((brd, key) => (
               <span className={`rounded text-sm font-normal py-1 px-2 cursor-pointer ${theme.lightBackground} text-gray-500`}>{brd}</span>
             ))}
-          {/* </p> */}
+          
         </div>
       </div>
     </div>

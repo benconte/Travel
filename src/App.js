@@ -9,7 +9,7 @@ import MainContext from "./context/MainContext";
 import Country from "./pages/country/Country";
 import ToVisit from "./pages/tovisit/ToVisit";
 import Visited from "./pages/visited/Visited";
-
+import NotFound from "./pages/NotFound"
 // the App component contains all the routes of our app
 function App() {
   return (
@@ -56,6 +56,7 @@ function App() {
             />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
+            <Route path="*"element={<NotFound />} />
           </Routes>
         </div>
       </Router>

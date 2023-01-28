@@ -1,18 +1,7 @@
-import { useContext } from "react"
 import { Switch } from '@headlessui/react'
-import { AppContext } from '../context/MainContext'
 
-export default function Mode({ enabled, setEnabled }) {
-  const { changeTheme } = useContext(AppContext)
-
-  const handleTheme = () => {
-    if (enabled) {
-      changeTheme("light")
-      setEnabled(false)
-  } else {
-      changeTheme("dark")
-      setEnabled(true)
-  }}
+// this function changes the theme based on the result of the switch.
+export default function Mode({ enabled, setEnabled, handleTheme }) {
   return (
     <div className="py-16">
       <Switch

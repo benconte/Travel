@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import search from "../../utils/search.svg";
-import chevrondown from "../../utils/chevrondown.svg";
+import search from "../../utils/images/search.svg";
+import chevrondown from "../../utils/images/chevrondown.svg";
 import { AppContext } from "../../context/MainContext";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
@@ -14,14 +14,16 @@ function Options({ handleSearch, handleFilter }) {
     handleSearch(e.target.value);
   };
 
+  // this function calls the handleFilter function in the parent, and passes some rules
   const filt = ({ target }) => {
     handleFilter(target.innerHTML);
   };
-  const handleClick = () => {
+  const handleClick = () => { // this part controlls the profile dropdown
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleClickAway = () => {
+  // this function hides the dropdown when the user clicks on an element which is not a chid of this component
+  const handleClickAway = () => { 
     setIsDropdownOpen(false);
   };
   return (
@@ -32,21 +34,22 @@ function Options({ handleSearch, handleFilter }) {
         >
           <img src={search} alt="Search" />
           <input
-            type="search"
-            placeholder="Search For a Country...."
-            className="w-full border-none outline-none bg-transparent h-full"
-            onChange={(e) => filterBySearch(e)}
-          />
+              type="search"
+              placeholder="Search For a Country...."
+              className="w-full border-none outline-none bg-transparent h-full"
+              onChange={(e) => filterBySearch(e)}
+            />
         </div>
         {/* filter section */}
         <div className="relative flex items-center">
-          <div
-            className={`flex items-center gap-2 px-5 ${theme.lightBackground} rounded-lg h-12 cursor-pointer`}
+          <button
+            type="button"
+            className={`outline-none flex items-center gap-2 px-5 ${theme.lightBackground} rounded-lg h-12 cursor-pointer`}
             onClick={handleClick}
           >
             <span className="font-normal text-lg">Filter by region</span>
             <img src={chevrondown} alt="dropdown" />
-          </div>
+          </button>
           {/* dropdown */}
           {isDropdownOpen && (
             <div

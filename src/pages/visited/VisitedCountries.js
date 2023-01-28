@@ -1,15 +1,30 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { AppContext } from "../../context/MainContext";
-import { getDocs } from "firebase/firestore";
 import { visitedRef } from "../../firebase";
 import Card from "./Card";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../auth/Auth";
+import { getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 function VisitedCountries() {
   const { theme } = useContext(AppContext);
   const { currentUser } = useContext(AuthContext);
   const [countries, setCountries] = useState([]);
+
+  const deleteAll = useCallback(async () => { // this function deletes all the visited countries
+    await getDocs(visitedRef)
+      .then((snapshot) => {
+        snapshot.docs.forEach((docum) => {
+          if(docum.data().uid === currentUser.uid) {
+            // delete all teh visited countries belonging to the user
+            deleteDoc(doc(db, "visited", docum.id));
+          }
+        });
+      })
+      .catch((err) => console.log(err.message));
+    setCountries([]);
+  }, [])
 
   const getData = useCallback(async () => {
     let temp = [];
@@ -47,16 +62,26 @@ function VisitedCountries() {
         </div>
       ) : (
         <div className="w-full">
-          <div className="w-full mt-10 mb-5">
-            <h3
-              className={`font-medium ${theme.secondaryText} text-base`}
-            >
+          <div className="w-full mt-10 mb-5 flex items-center gap-2">
+            <h3 className={`font-medium ${theme.secondaryText} text-base`}>
               All the countries you've visited
             </h3>
+            <button
+              type="button"
+              onClick={() => deleteAll()}
+              className={`border-none py-2 px-4 text-sm font-medium cursor-pointer rounded bg-[#D9D9D9] hover:bg-red-600 hover:text-white`}
+            >
+              Clear all
+            </button>
           </div>
           <div className="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
             {countries.map((country, key) => (
-              <Card country={country} key={key} setCountries={setCountries} countries={countries} />
+              <Card
+                country={country}
+                key={key}
+                setCountries={setCountries}
+                countries={countries}
+              />
             ))}
           </div>
         </div>

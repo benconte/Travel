@@ -6,6 +6,7 @@ import { AuthContext } from '../pages/auth/Auth'
 // take the component and the rest of the props
 function PrivateRoute({ children }) {
     const { currentUser } =  useContext(AuthContext)
+    console.log(currentUser)
     if (!currentUser) {
       return <Navigate to='/login' />
     }

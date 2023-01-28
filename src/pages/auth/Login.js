@@ -7,14 +7,17 @@ export default function Login() {
   const [errCode, setErrCode] = useState()
   const { signIn } = useContext(AuthContext)
 
+  // firebase request are asynchronous so we use async
   const handleLogin = async (e) => {
-    e.preventDefault()
+    e.preventDefault() // prevent the default behavior of the form
     const { email, password } = e.target.elements;
 
     try {
+      // we pass the email and password the signIn func in Auth.js
       await signIn(email.value, password.value)
       navigate("/")
     } catch (err) {
+      // we handle error management based on the error returned by firebase
       if(err.code === "auth/invalid-email") {
         setErrCode("The provided email is invalid. It must be a full email(with @ sign)")
       } else if (err.code === "auth/user-not-found") {
@@ -63,6 +66,7 @@ export default function Login() {
                   <button
                     type="submit"
                     className="w-full bg-[#0095f6] p-2 text-lg text-white text-center rounded border border-solid border-transparent font-bold outline-none cursor-pointer"
+                    name="login"
                   >
                     Login
                   </button>

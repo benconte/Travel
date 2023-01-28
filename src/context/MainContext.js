@@ -39,10 +39,11 @@ function MainContext({ children }) {
       darkBackground: "bg-[#333]"
     }
   })
-  localStorage.setItem("theme", "light")
+  localStorage.setItem("theme", "light") // we store the theme in localstorage for future use
   const [mode, setMode] = useState(localStorage.getItem("theme"))
   const [theme, setTheme] = useState(themeColors[mode])
   
+  // we change the theme based on the parameter
   const changeTheme = (thm) => {
     localStorage.setItem("theme", thm)
     setMode(thm)
@@ -55,6 +56,7 @@ function MainContext({ children }) {
       themeColors,
       theme
     }}>
+      {/* all children inside of this context will be able to use the context */}
       {children}
     </AppContext.Provider>
   )

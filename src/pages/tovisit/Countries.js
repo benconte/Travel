@@ -11,6 +11,7 @@ function Countries() {
   const { theme } = useContext(AppContext);
   const [places, setPlaces] = useState([]);
 
+  // we get the toVisit countries from firebase firestore and save them in places state
   const getData = useCallback(async () => {
     let temp = [];
     await getDocs(colRef)
@@ -23,7 +24,7 @@ function Countries() {
       })
       .catch((err) => console.log(err.message));
     setPlaces(temp);
-  }, [places, currentUser.uid]);
+  }, [currentUser.uid]);
 
   useEffect(() => {
     getData();
@@ -31,6 +32,7 @@ function Countries() {
 
   return (
     <div className="w-full h-full pb-5 px-8">
+      {/* we check if we got any data from firebase, if we didn't we show no countries */}
       {places.length === 0 ? (
         <div className="w-full text-center my-20">
           <h3
@@ -54,6 +56,7 @@ function Countries() {
           </div>
 
           <div className="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-5">
+      {/* from here we map through the places array  */}
             {places.map((country, key) => (
               <CountryCard
                 country={country}

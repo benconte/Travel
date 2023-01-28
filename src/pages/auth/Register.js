@@ -13,10 +13,12 @@ export default function Register() {
     const { username, email, password } = e.target.elements;
 
     try {
+      // we pass the email and password the signIn func in Auth.js
       await register(email.value, password.value, username.value);
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       setErrCode(err.code)
+      // we handle error management based on the error returned by firebase
 
       if(err.code === "auth/email-already-in-use") {
         setErrCode("Email already exists. Choose another")

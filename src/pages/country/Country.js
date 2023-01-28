@@ -11,6 +11,7 @@ function Country() {
     const url = useParams()
 
     useEffect(() => {
+      // we fetch the selected country from the api and save it to the country state
       fetch(`https://restcountries.com/v3.1/name/${url.name}?fullText=true`)
       .then(res => res.json())
       .then(data => {

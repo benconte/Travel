@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import trash from "../../utils/trash.svg";
+import trash from "../../utils/images/trash.svg";
 import { AppContext } from "../../context/MainContext";
 import { addDoc, deleteDoc, doc } from "firebase/firestore";
 import { visitedRef, visit, db } from "../../firebase";
@@ -10,9 +10,11 @@ export default function CountryCard({ country, setPlaces, places }) {
 
   // Function that adds a comma after thousandths for population
   const addCommas = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toLocaleString("en-US");
   };
 
+  // we add the country to visited collection in firebase and at the same time we remove it,
+  // from the toVisit collection as well as the places state
   const visitCountry = async () => {
     const temp = { ...country }
     
@@ -31,6 +33,8 @@ export default function CountryCard({ country, setPlaces, places }) {
     });
   };
 
+  // we remove a country from toVisit by calling the deleteDoc and we pass in a doc 
+  // containing the collection and the docId
   const removeVisitTo = async () => {
     const ref = doc(db, "tovisit", country.docId)
     await deleteDoc(ref).then(() => {

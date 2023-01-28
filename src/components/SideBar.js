@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import { AppContext } from "../context/MainContext";
 import { Link } from "react-router-dom";
 
+// this components shows the sideBar
 function SideBar() {
-  const { theme } = useContext(AppContext);
+  const { theme } = useContext(AppContext); // getting the theme from the context
 
   const itemStyles = `my-4 ${theme.primaryText} text-xs font-medium cursor-pointer tracking-wide`;
 

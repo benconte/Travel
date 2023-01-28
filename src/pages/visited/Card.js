@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../context/MainContext";
-import trash from "../../utils/trash.svg";
+import trash from "../../utils/images/trash.svg";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -10,9 +10,10 @@ export default function Card({ country, countries, setCountries }) {
 
   // Function that adds a comma after thousandths for population
   const addCommas = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toLocaleString("en-US");
   };
 
+  // this function removed the country from the visited collection
   const removeFromVisited = async () => {
     const ref = doc(db, "visited", country.docId)
     await deleteDoc(ref).then(() => {
