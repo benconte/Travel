@@ -8,11 +8,11 @@ import State from './State'
 function Country() {
     const [country, setCountry] = useState()
     const { theme } = useContext(AppContext)
-    const url = useParams()
+    const { name } = useParams()
 
     useEffect(() => {
       // we fetch the selected country from the api and save it to the country state
-      fetch(`https://restcountries.com/v3.1/name/${url.name}?fullText=true`)
+      fetch(`https://restcountries.com/v3.1/name/${name}?fullText=true`)
       .then(res => res.json())
       .then(data => {
         setCountry(data[0])

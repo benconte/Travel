@@ -70,7 +70,6 @@ export default function ImgMediaCard({ country, countries, setCountries }) {
         .catch((err) => {
           console.log(err.message);
         });
-      console.log("called");
     }
   };
 

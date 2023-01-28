@@ -42,7 +42,6 @@ function TopNav() {
           />
         </div>
         <div className="flex items-center md:hidden">
-          <moon />
           {mode === "light" ? (
             <div className="flex items-center gap-2">
               <NightlightOutlinedIcon
