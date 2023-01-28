@@ -4,8 +4,17 @@ import { AppContext } from "../../context/MainContext";
 import trash from "../../utils/images/trash.svg";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-export default function Card({ country, countries, setCountries }) {
+export default function Card({
+  country,
+  countries,
+  setCountries,
+  dragStart,
+  dragEnter,
+  drop,
+  index,
+}) {
   const { theme } = useContext(AppContext);
 
   // Function that adds a comma after thousandths for population
@@ -15,23 +24,29 @@ export default function Card({ country, countries, setCountries }) {
 
   // this function removed the country from the visited collection
   const removeFromVisited = async () => {
-    const ref = doc(db, "visited", country.docId)
-    await deleteDoc(ref).then(() => {
-      const cntry = []
-      countries.forEach(elm => {
-          if(elm.docId !== country.docId) {
-            cntry.push(elm)
+    const ref = doc(db, "visited", country.docId);
+    await deleteDoc(ref)
+      .then(() => {
+        const cntry = [];
+        countries.forEach((elm) => {
+          if (elm.docId !== country.docId) {
+            cntry.push(elm);
           }
-        })
-  
+        });
+
         // now deleting the document from the visited collection
-        setCountries(cntry)
-        console.log(`${country.name} was removed from visited`)
-    }).catch(err => console.log(err))
+        setCountries(cntry);
+        console.log(`${country.name} was removed from visited`);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div
       className={`w-full flex flex-col justify-start rounded-xl overflow-hidden bg-[${theme.cardBackground}]`}
+      draggable
+      onDragStart={(e) => dragStart(e, index)}
+      onDragEnter={(e) => dragEnter(e, index)}
+      onDragEnd={drop}
     >
       <Link to={`/country/${country.name}`} className="w-full">
         <div className="w-full h-48 rounded-2">
@@ -56,7 +71,8 @@ export default function Card({ country, countries, setCountries }) {
         </div>
       </Link>
       {/* buttons */}
-      <div className="w-full flex justify-end gap-2 p-3">
+      <div className="w-full flex justify-between items-center gap-2 p-3">
+        <DragIndicatorIcon className={`cursor-move text-xl ${theme.primaryText}`} />
         <button
           type="button"
           onClick={() => removeFromVisited()}

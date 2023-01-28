@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { AppContext } from "../../context/MainContext";
 import { visitedRef } from "../../firebase";
 import Card from "./Card";
@@ -39,6 +39,29 @@ function VisitedCountries() {
       .catch((err) => console.log(err.message));
     setCountries(temp);
   }, [countries, currentUser.uid]);
+
+  const dragItem = useRef();
+  const dragOverItem = useRef();
+
+  const dragStart = (e, position) => {
+    dragItem.current = position;
+    console.log(e.target.innerHTML);
+  };
+
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position;
+    console.log(e.target.innerHTML);
+  };
+
+  const drop = (e) => {
+    const copyListItems = [...countries];
+    const dragItemContent = copyListItems[dragItem.current];
+    copyListItems.splice(dragItem.current, 1);
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setCountries(copyListItems);
+  };
 
   useEffect(() => {
     getData();
@@ -81,6 +104,10 @@ function VisitedCountries() {
                 key={key}
                 setCountries={setCountries}
                 countries={countries}
+                dragStart={dragStart}
+                dragEnter={dragEnter}
+                drop={drop}
+                index={key}
               />
             ))}
           </div>

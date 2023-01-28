@@ -4,8 +4,17 @@ import trash from "../../utils/images/trash.svg";
 import { AppContext } from "../../context/MainContext";
 import { addDoc, deleteDoc, doc } from "firebase/firestore";
 import { visitedRef, visit, db } from "../../firebase";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-export default function CountryCard({ country, setPlaces, places }) {
+export default function CountryCard({
+  country,
+  setPlaces,
+  places,
+  dragStart,
+  dragEnter,
+  drop,
+  index,
+}) {
   const { theme } = useContext(AppContext);
 
   // Function that adds a comma after thousandths for population
@@ -16,43 +25,49 @@ export default function CountryCard({ country, setPlaces, places }) {
   // we add the country to visited collection in firebase and at the same time we remove it,
   // from the toVisit collection as well as the places state
   const visitCountry = async () => {
-    const temp = { ...country }
-    
+    const temp = { ...country };
+
     await addDoc(visitedRef, temp).then(() => {
-      const cntry = []
-      places.forEach(elm => {
-        if(elm.docId !== country.docId) {
-          cntry.push(elm)
+      const cntry = [];
+      places.forEach((elm) => {
+        if (elm.docId !== country.docId) {
+          cntry.push(elm);
         }
-      })
+      });
 
       // now deleting the document from the toVisit collection
-      const msg = visit("tovisit", country.docId)
-      setPlaces(cntry)
-      console.log(msg)
+      const msg = visit("tovisit", country.docId);
+      setPlaces(cntry);
+      console.log(msg);
     });
   };
 
-  // we remove a country from toVisit by calling the deleteDoc and we pass in a doc 
+  // we remove a country from toVisit by calling the deleteDoc and we pass in a doc
   // containing the collection and the docId
   const removeVisitTo = async () => {
-    const ref = doc(db, "tovisit", country.docId)
-    await deleteDoc(ref).then(() => {
-      const cntry = []
-        places.forEach(elm => {
-          if(elm.docId !== country.docId) {
-            cntry.push(elm)
+    const ref = doc(db, "tovisit", country.docId);
+    await deleteDoc(ref)
+      .then(() => {
+        const cntry = [];
+        places.forEach((elm) => {
+          if (elm.docId !== country.docId) {
+            cntry.push(elm);
           }
-        })
-  
+        });
+
         // now deleting the document from the toVisit collection
-        setPlaces(cntry)
-        console.log(`${country.name} was removed from toVisit`)
-    }).catch(err => console.log(err))
+        setPlaces(cntry);
+        console.log(`${country.name} was removed from toVisit`);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div
       className={`w-full flex flex-col justify-start rounded-xl overflow-hidden bg-[${theme.cardBackground}]`}
+      draggable
+      onDragStart={(e) => dragStart(e, index)}
+      onDragEnter={(e) => dragEnter(e, index)}
+      onDragEnd={drop}
     >
       <Link to={`/country/${country.name}`} className="w-full">
         <div className="w-full h-48 rounded-2">
@@ -77,21 +92,24 @@ export default function CountryCard({ country, setPlaces, places }) {
         </div>
       </Link>
       {/* buttons */}
-      <div className="w-full flex justify-end gap-2 p-3">
-        <button
-          type="button"
-          onClick={() => removeVisitTo()}
-          className={`border-none p-3 rounded-full bg-[#D9D9D9]`}
-        >
-          <img src={trash} alt="Check" className={`w-[16px] h-[16px]`} />
-        </button>
-        <button
-          type="button"
-          onClick={() => visitCountry()}
-          className={`border-none py-1 px-4 text-sm font-medium cursor-pointer rounded text-white bg-[var(--green)] hover:bg-[var(--dark-green)]`}
-        >
-          Visit
-        </button>
+      <div className="w-full flex items-center justify-between p-3">
+        <DragIndicatorIcon className={`cursor-move text-xl ${theme.primaryText}`} />
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => removeVisitTo()}
+            className={`border-none p-3 rounded-full bg-[#D9D9D9]`}
+          >
+            <img src={trash} alt="Check" className={`w-[16px] h-[16px]`} />
+          </button>
+          <button
+            type="button"
+            onClick={() => visitCountry()}
+            className={`border-none py-1 px-4 text-sm font-medium cursor-pointer rounded text-white bg-[var(--green)] hover:bg-[var(--dark-green)]`}
+          >
+            Visit
+          </button>
+        </div>
       </div>
     </div>
   );
