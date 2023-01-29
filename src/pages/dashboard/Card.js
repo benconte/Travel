@@ -40,13 +40,13 @@ export default function ImgMediaCard({ country, countries, setCountries }) {
     if (isVisited === false) {
       await addDoc(colRef, {
         name: country.name.common,
-        population: country.population,
-        region: country.region,
-        capital: country.capital,
-        currencies: country.currencies,
-        domain: country.tld,
-        languages: country.languages,
-        borderCountries: country.borders,
+        population: country.population? country.population: 0,
+        region: country.region? country.region: "None",
+        capital: country.capital? country.capital: "None",
+        currencies: country.currencies? country.currencies: [],
+        domain: country.tld? country.tld: "None",
+        languages: country.languages? country.languages: "None",
+        borderCountries: country.borders? country.region: [],
         flag: country.flags.svg,
         uid: currentUser.uid,
       }).then(() => {
@@ -111,10 +111,10 @@ export default function ImgMediaCard({ country, countries, setCountries }) {
             {country.name.common}
           </h3>
           <span className={`${theme.secondaryText}`}>
-            Population: {addCommas(country.population)}
+            Population: {addCommas(country.population? country.population: 0)}
           </span>
           <span className={`${theme.secondaryText} truncate`}>
-            Capital: {country.capital}
+            Capital: {country.capital? country.capital: "None"}
           </span>
           <span className={`${theme.secondaryText}`}>Currency:random</span>
         </div>

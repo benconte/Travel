@@ -49,6 +49,7 @@ function MyList() {
       const resp = await fetch(`https://restcountries.com/v3.1/all`);
       const data = await resp.json();
       setCountries(data);
+      console.log("all countries:",countries)
     };
     getCountries();
   }, []);
