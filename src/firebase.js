@@ -6,13 +6,13 @@ import { getFirestore, collection, doc, deleteDoc } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAntQpXIcNSEjpD-jj2c-8kbVQH3Dnraxc",
-  authDomain: "travel-5a958.firebaseapp.com",
-  projectId: "travel-5a958",
-  storageBucket: "travel-5a958.appspot.com",
-  messagingSenderId: "897208159790",
-  appId: "1:897208159790:web:88578f5096f6a63fced9bf",
-  measurementId: "G-4CEBCL544S",
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASUREMENTID,
 };
 
 // Initialize Firebase

@@ -72,7 +72,7 @@ function MyList() {
       {filteredCountries && search !== "" && (
         <div className="w-full flex items-start flex-wrap gap-8 mt-5">
           {filteredCountries.map((country, key) => (
-            <Card country={country} key={key} countries={countries} />
+            <Card country={country} key={key} countries={countries} setCountries={setCountries} />
           ))}
         </div>
       )}
