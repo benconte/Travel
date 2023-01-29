@@ -40,13 +40,13 @@ export default function ImgMediaCard({ country, countries, setCountries }) {
     if (isVisited === false) {
       await addDoc(colRef, {
         name: country.name.common,
-        population: country.population? country.population: 0,
-        region: country.region? country.region: "None",
-        capital: country.capital? country.capital: "None",
-        currencies: country.currencies? country.currencies: [],
-        domain: country.tld? country.tld: "None",
-        languages: country.languages? country.languages: "None",
-        borderCountries: country.borders? country.region: [],
+        population: country.population ? country.population : 0,
+        region: country.region ? country.region : "None",
+        capital: country.capital ? country.capital : "None",
+        currencies: country.currencies ? country.currencies : [],
+        domain: country.tld ? country.tld : "None",
+        languages: country.languages ? country.languages : "None",
+        borderCountries: country.borders ? country.region : [],
         flag: country.flags.svg,
         uid: currentUser.uid,
       }).then(() => {
@@ -111,12 +111,19 @@ export default function ImgMediaCard({ country, countries, setCountries }) {
             {country.name.common}
           </h3>
           <span className={`${theme.secondaryText}`}>
-            Population: {addCommas(country.population? country.population: 0)}
+            Population: {addCommas(country.population ? country.population : 0)}
           </span>
           <span className={`${theme.secondaryText} truncate`}>
-            Capital: {country.capital? country.capital: "None"}
+            Capital: {country.capital ? country.capital : "None"}
           </span>
-          <span className={`${theme.secondaryText}`}>Currency:random</span>
+          <span className={`${theme.secondaryText} flex items-start gap-1`}>
+            Currency:{" "}
+            {country.currencies ? (
+              Object.keys(country.currencies).join(", ")
+            ) : (
+              <h3 className="font-normal">None</h3>
+            )}
+          </span>
         </div>
       </Link>
       {/* buttons */}
